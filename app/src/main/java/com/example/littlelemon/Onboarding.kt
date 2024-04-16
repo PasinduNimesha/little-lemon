@@ -1,4 +1,4 @@
-package com.example.littlelemon.ui.theme.composables
+package com.example.littlelemon
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,14 +11,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.littlelemon.R
 
 @Composable
 fun Onboarding() {
@@ -74,12 +72,6 @@ fun Onboarding() {
         }
 
 
-
-        // TextFields
-
-
-
-        // Register Button
         Button(
             modifier = Modifier.fillMaxWidth(0.9f),
             shape = RoundedCornerShape(5.dp),
