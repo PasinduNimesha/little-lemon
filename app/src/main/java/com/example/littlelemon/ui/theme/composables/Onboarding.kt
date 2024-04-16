@@ -1,6 +1,7 @@
 package com.example.littlelemon.ui.theme.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,15 +21,14 @@ import com.example.littlelemon.R
 fun Onboarding() {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+            .fillMaxSize()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Header()
 
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(text = stringResource(id = R.string.onboarding_prompt))
 
@@ -62,7 +62,7 @@ fun Header() {
     Image(
         painter = logo,
         contentDescription = "App Logo",
-        modifier = Modifier.size(350.dp)
+        modifier = Modifier.width(400.dp).height(126.dp),
     )
 }
 
