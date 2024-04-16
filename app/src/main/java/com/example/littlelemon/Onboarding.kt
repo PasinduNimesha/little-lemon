@@ -17,9 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun Onboarding() {
+fun Onboarding(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,7 +78,9 @@ fun Onboarding() {
             modifier = Modifier.fillMaxWidth(0.9f),
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
-            onClick = { /* TODO: Implement registration logic */ }
+            onClick = {
+                navController.navigate(Home.route)
+            }
         ) {
             Text(text = stringResource(id = R.string.register_button_label))
         }
@@ -115,5 +119,6 @@ fun Banner() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewOnboarding() {
-    Onboarding()
+    val navController = rememberNavController()
+    Onboarding(navController)
 }
