@@ -3,12 +3,15 @@ package com.example.littlelemon.ui.theme.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,33 +25,65 @@ fun Onboarding() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
+,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Header()
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(text = stringResource(id = R.string.onboarding_prompt))
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // TextFields
+        Banner()
         val firstName = remember { mutableStateOf(TextFieldValue()) }
         val lastName = remember { mutableStateOf(TextFieldValue()) }
         val email = remember { mutableStateOf(TextFieldValue()) }
-        TextField(value = firstName.value, onValueChange = { firstName.value = it }, label = { Text("First Name") })
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(value = lastName.value, onValueChange = { lastName.value = it }, label = { Text("Last Name") })
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(value = email.value, onValueChange = { email.value = it }, label = { Text("Email Address") })
+        Column(
+            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween
 
-        Spacer(modifier = Modifier.height(24.dp))
+        ) {
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Text(text = "Personal Information", style = MaterialTheme.typography.bodyMedium)
+
+            Spacer(modifier = Modifier.height(16.dp))
+            TextField(
+                value = firstName.value,
+                onValueChange = { firstName.value = it },
+                label = { Text("First Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = lastName.value,
+                onValueChange = { lastName.value = it },
+                label = { Text("Last Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = email.value,
+                onValueChange = { email.value = it },
+                label = { Text("Email Address") },
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Spacer(modifier = Modifier.height(150.dp))
+        }
+
+
+
+        // TextFields
+
+
 
         // Register Button
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(0.9f),
+            shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
             onClick = { /* TODO: Implement registration logic */ }
         ) {
             Text(text = stringResource(id = R.string.register_button_label))
@@ -62,8 +97,27 @@ fun Header() {
     Image(
         painter = logo,
         contentDescription = "App Logo",
-        modifier = Modifier.width(400.dp).height(126.dp),
+        modifier = Modifier
+            .width(400.dp)
+            .height(126.dp),
     )
+}
+@Composable
+fun Banner() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .background(Color.Gray)
+    ){
+        Text(
+            text = "Let's Get to Know You!",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onPrimary,
+            modifier = Modifier.align(Alignment.Center)
+        )
+
+    }
 }
 
 @Preview(showBackground = true)
