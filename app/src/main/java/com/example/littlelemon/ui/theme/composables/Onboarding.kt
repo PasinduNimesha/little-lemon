@@ -20,14 +20,15 @@ import com.example.littlelemon.R
 fun Onboarding() {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        Header()
+        Header()
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         Text(text = stringResource(id = R.string.onboarding_prompt))
 
@@ -57,11 +58,11 @@ fun Onboarding() {
 
 @Composable
 fun Header() {
-    val logo: Painter = painterResource(id = R.drawable.logo)
+    val logo: Painter = painterResource(id = R.drawable.img)
     Image(
         painter = logo,
         contentDescription = "App Logo",
-        modifier = Modifier.size(100.dp)
+        modifier = Modifier.size(350.dp)
     )
 }
 
