@@ -37,14 +37,13 @@ fun Onboarding() {
         val firstName = remember { mutableStateOf(TextFieldValue()) }
         val lastName = remember { mutableStateOf(TextFieldValue()) }
         val email = remember { mutableStateOf(TextFieldValue()) }
-//
         TextField(value = firstName.value, onValueChange = { firstName.value = it }, label = { Text("First Name") })
         Spacer(modifier = Modifier.height(8.dp))
         TextField(value = lastName.value, onValueChange = { lastName.value = it }, label = { Text("Last Name") })
         Spacer(modifier = Modifier.height(8.dp))
         TextField(value = email.value, onValueChange = { email.value = it }, label = { Text("Email Address") })
-//
-//        Spacer(modifier = Modifier.height(24.dp))
+
+        Spacer(modifier = Modifier.height(24.dp))
 
         // Register Button
         Button(onClick = { /* TODO: Implement registration logic */ }) {
