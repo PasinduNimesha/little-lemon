@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LittleLemon</string>
+    <string name="register_button_label">Register</string>
+    <string name="onboarding_prompt">Prompt</string>
 </resources>
