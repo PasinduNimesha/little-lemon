@@ -46,7 +46,10 @@ fun Onboarding() {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Register Button
-        Button(onClick = { /* TODO: Implement registration logic */ }) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { /* TODO: Implement registration logic */ }
+        ) {
             Text(text = stringResource(id = R.string.register_button_label))
         }
     }
