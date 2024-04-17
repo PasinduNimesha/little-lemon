@@ -87,6 +87,7 @@ fun Onboarding(navController: NavHostController) {
                     lastName = lastName.value.text,
                     email = email.value.text
                 )
+                navController.navigate("home")
 
             }
         ) {
