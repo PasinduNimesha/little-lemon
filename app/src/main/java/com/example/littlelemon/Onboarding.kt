@@ -1,5 +1,6 @@
 package com.example.littlelemon
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -22,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun Onboarding(navController: NavHostController) {
+    var context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -78,7 +81,13 @@ fun Onboarding(navController: NavHostController) {
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
             onClick = {
-                navController.navigate(Home.route)
+                saveUserInfoToPrefs(
+                    context = context,
+                    firstName = firstName.value.text,
+                    lastName = lastName.value.text,
+                    email = email.value.text
+                )
+
             }
         ) {
             Text(text = stringResource(id = R.string.register_button_label))
@@ -120,4 +129,13 @@ fun Banner() {
 fun PreviewOnboarding() {
     val navController = rememberNavController()
     Onboarding(navController)
+}
+
+fun saveUserInfoToPrefs(context: Context, firstName: String, lastName: String, email: String) {
+    val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("firstName", firstName)
+    editor.putString("lastName", lastName)
+    editor.putString("email", email)
+    editor.apply()
 }
