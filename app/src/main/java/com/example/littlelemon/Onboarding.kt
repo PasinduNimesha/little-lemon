@@ -69,7 +69,7 @@ fun Onboarding(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            Spacer(modifier = Modifier.height(150.dp))
+            Spacer(modifier = Modifier.fillMaxHeight(0.4f))
         }
 
 
