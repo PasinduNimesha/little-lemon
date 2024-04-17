@@ -24,8 +24,7 @@ import androidx.navigation.compose.rememberNavController
 fun Onboarding(navController: NavHostController) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-,
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
