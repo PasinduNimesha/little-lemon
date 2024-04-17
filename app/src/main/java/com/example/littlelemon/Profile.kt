@@ -1,26 +1,117 @@
 package com.example.littlelemon
 
+import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
 @Composable
 fun Profile(navController: NavHostController) {
+    val firstName = remember { mutableStateOf(TextFieldValue()) }
+    val lastName = remember { mutableStateOf(TextFieldValue()) }
+    val email = remember { mutableStateOf(TextFieldValue()) }
+    var user = fetchUser(navController.context)
+    firstName.value = TextFieldValue(user.firstName)
+    lastName.value = TextFieldValue(user.lastName)
+    email.value = TextFieldValue(user.email)
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Profile")
-        Button(onClick = { navController.navigate("home")}) {
-            Text("Go to Home")
+        Image(painter = painterResource(id = R.drawable.img), contentDescription = "logo")
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                contentAlignment = Alignment.CenterStart,
+
+                ) {
+                Text("Personal Information", style = MaterialTheme.typography.bodyMedium)
+            }
+            TextField(
+                value = firstName.value,
+                onValueChange = { firstName.value = it },
+                label = { Text("First Name") },
+                modifier = Modifier.fillMaxWidth(0.9f)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = lastName.value,
+                onValueChange = { lastName.value = it },
+                label = { Text("Last Name") },
+                modifier = Modifier.fillMaxWidth(0.9f)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                value = email.value,
+                onValueChange = { email.value = it },
+                label = { Text("Email Address") },
+                modifier = Modifier.fillMaxWidth(0.9f),
+            )
+        }
+
+        Button(onClick = {}) {
+            Text("Save")
+        }
+
+        Button(onClick = { logOut(navController)}) {
+            Text("Log Out")
         }
 
     }
 }
+
+fun logOut(nav: NavHostController) {
+    val sharedPreferences = nav.context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    sharedPreferences.edit().clear().apply()
+    nav.navigate("onboarding")
+}
+fun fetchUser(context: Context): User {
+    val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    return User(
+        firstName = sharedPreferences.getString("firstName", "")!!,
+        lastName = sharedPreferences.getString("lastName", "")!!,
+        email = sharedPreferences.getString("email", "")!!
+    )
+}
+
+fun updateUser(context: Context, user: User) {
+    val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+    sharedPreferences.edit()
+        .putString("firstName", user.firstName)
+        .putString("lastName", user.lastName)
+        .putString("email", user.email)
+        .apply()
+}
+
+data class User(
+    val firstName: String,
+    val lastName: String,
+    val email: String
+)
+
