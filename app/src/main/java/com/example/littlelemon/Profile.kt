@@ -26,13 +26,10 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun Profile(navController: NavHostController) {
-    val firstName = remember { mutableStateOf(TextFieldValue()) }
-    val lastName = remember { mutableStateOf(TextFieldValue()) }
-    val email = remember { mutableStateOf(TextFieldValue()) }
     var user = fetchUser(navController.context)
-    firstName.value = TextFieldValue(user.firstName)
-    lastName.value = TextFieldValue(user.lastName)
-    email.value = TextFieldValue(user.email)
+    val firstName = remember { mutableStateOf(TextFieldValue(user.firstName)) }
+    val lastName = remember { mutableStateOf(TextFieldValue(user.lastName)) }
+    val email = remember { mutableStateOf(TextFieldValue(user.email)) }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -55,7 +52,7 @@ fun Profile(navController: NavHostController) {
             }
             TextField(
                 value = firstName.value,
-                onValueChange = { firstName.value = it },
+                onValueChange = { firstName.value = it ; },
                 label = { Text("First Name") },
                 modifier = Modifier.fillMaxWidth(0.9f)
             )
@@ -75,7 +72,13 @@ fun Profile(navController: NavHostController) {
             )
         }
 
-        Button(onClick = {}) {
+        Button(onClick = {
+            user.firstName = firstName.value.text
+            user.lastName = lastName.value.text
+            user.email = email.value.text
+            updateUser(navController.context, user)
+            navController.navigate("home")
+        }) {
             Text("Save")
         }
 
@@ -110,8 +113,8 @@ fun updateUser(context: Context, user: User) {
 }
 
 data class User(
-    val firstName: String,
-    val lastName: String,
-    val email: String
+    var firstName: String,
+    var lastName: String,
+    var email: String
 )
 
