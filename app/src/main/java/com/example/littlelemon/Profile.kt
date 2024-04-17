@@ -26,7 +26,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun Profile(navController: NavHostController) {
-    var user = fetchUser(navController.context)
+    val user = fetchUser(navController.context)
     val firstName = remember { mutableStateOf(TextFieldValue(user.firstName)) }
     val lastName = remember { mutableStateOf(TextFieldValue(user.lastName)) }
     val email = remember { mutableStateOf(TextFieldValue(user.email)) }
@@ -52,7 +52,7 @@ fun Profile(navController: NavHostController) {
             }
             TextField(
                 value = firstName.value,
-                onValueChange = { firstName.value = it ; },
+                onValueChange = { firstName.value = it },
                 label = { Text("First Name") },
                 modifier = Modifier.fillMaxWidth(0.9f)
             )
@@ -90,17 +90,23 @@ fun Profile(navController: NavHostController) {
 }
 
 fun logOut(nav: NavHostController) {
-    val sharedPreferences = nav.context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-    sharedPreferences.edit().clear().apply()
-    nav.navigate("onboarding")
+    try {
+        nav.context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).edit().clear().apply()
+        nav.navigate("onboarding")
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }
 fun fetchUser(context: Context): User {
-    val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-    return User(
-        firstName = sharedPreferences.getString("firstName", "")!!,
-        lastName = sharedPreferences.getString("lastName", "")!!,
-        email = sharedPreferences.getString("email", "")!!
-    )
+    return try {
+        val sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val firstName = sharedPreferences.getString("firstName", "")!!
+        val lastName = sharedPreferences.getString("lastName", "")!!
+        val email = sharedPreferences.getString("email", "")!!
+        User(firstName, lastName, email)
+    } catch (e: Exception) {
+        User("", "", "")
+    }
 }
 
 fun updateUser(context: Context, user: User) {
