@@ -47,13 +47,14 @@ suspend fun fetchMenuData(): List<MenuItemNetwork> {
     return try {
         // Make a network call to fetch the menu data
         val response = httpClient.get(url)
-        Log.d("Network", response.toString())
+        Log.d("zz", response.toString())
         // Decode the JSON response to MenuNetworkData
         val menuNetworkData = Json.decodeFromString<MenuNetworkData>(response.toString())
         // Return the list of menu items
         menuNetworkData.menu
     } catch (e: Exception) {
         // Handle exceptions
+        Log.e("zz", e.message.toString())
         emptyList()
     }
 }
