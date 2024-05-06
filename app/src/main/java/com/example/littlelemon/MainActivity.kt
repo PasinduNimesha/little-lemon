@@ -11,8 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.example.littlelemon.ui.theme.LittleLemonTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -27,6 +30,9 @@ class MainActivity : ComponentActivity() {
                     NavigationComposable()
                 }
             }
+        }
+        lifecycleScope.launch(Dispatchers.IO) {
+            fetchMenuData()
         }
     }
 }
