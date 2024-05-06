@@ -20,6 +20,9 @@ fun Home(navController: NavHostController) {
         Button(onClick = { navController.navigate("profile")}) {
             Text("Go to Profile")
         }
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Fetch Data")
+        }
 
     }
 }
