@@ -2,6 +2,7 @@ package com.example.littlelemon
 
 import android.util.Log
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
@@ -21,40 +22,40 @@ import kotlinx.serialization.json.Json
 //
 //Tip: The instance of the MenuNetwork class represents the entire menu. To retrieve individual menu items use the menu property of the MenuNetwork. Each item has id, title description, price and image attributes.
 
+//@Serializable
+//data class MenuNetworkData(
+//    @SerialName("menu") val menu: List<MenuItemNetwork>
+//)
+//
+//@Serializable
+//data class MenuItemNetwork(
+//    @SerialName("id") val id: MenuNetwork,
+//    @SerialName("title") val title: String,
+//    @SerialName("description") val description: String,
+//    @SerialName("price") val price: Double,
+//    @SerialName("image") val image: String
+//)
+
 @Serializable
-data class MenuNetworkData(
-    @SerialName("menu") val menu: List<MenuItemNetwork>
-)
+class MenuNetworkdata(
+    @SerialName("menu")
+    val menu: List<MenuItemNetwork>
+){
+}
 
 @Serializable
 data class MenuItemNetwork(
-    @SerialName("id") val id: Int,
-    @SerialName("title") val title: String,
-    @SerialName("description") val description: String,
-    @SerialName("price") val price: Double,
-    @SerialName("image") val image: String
+    @SerialName("id")
+    val id: Int,
+    @SerialName("title")
+    val title: String,
+    @SerialName("price")
+    val price: Double,
+    @SerialName("image")
+    val image: String,
+    @SerialName("description")
+    val description: String,
+    @SerialName("category")
+    val category: String
 )
 
-// Function to retrieve menu data from the server
-suspend fun fetchMenuData(): List<MenuItemNetwork> {
-    // Create an instance of HttpClient with JSON support
-    val httpClient = HttpClient(Android) {
-        install(ContentNegotiation) {
-            json(contentType = ContentType("text", "plain"))
-        }
-    }
-    val url = "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
-    return try {
-        // Make a network call to fetch the menu data
-        val response = httpClient.get(url)
-        Log.d("zz", response.toString())
-        // Decode the JSON response to MenuNetworkData
-        val menuNetworkData = Json.decodeFromString<MenuNetworkData>(response.toString())
-        // Return the list of menu items
-        menuNetworkData.menu
-    } catch (e: Exception) {
-        // Handle exceptions
-        Log.e("zz", e.message.toString())
-        emptyList()
-    }
-}
