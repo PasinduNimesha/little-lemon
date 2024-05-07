@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
             fetchMenuData()
         }
     }
-    private suspend fun fetchMenuData() {
+    private suspend fun fetchMenuData() : List<MenuItemNetwork> {
         try {
             val httpClient = HttpClient(Android) {
                 install(ContentNegotiation) {
@@ -53,9 +53,11 @@ class MainActivity : ComponentActivity() {
             Log.d("zd", "fetchMenuData")
             val menuData : MenuNetworkdata = httpClient.get("https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json").body()
             Log.d("zd", menuData.menu.toString())
+            return menuData.menu
         }
         catch (e: Exception) {
             Log.e("ze", e.message.toString())
+            return emptyList()
         }
     }
 }
