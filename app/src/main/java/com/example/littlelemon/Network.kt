@@ -34,7 +34,16 @@ data class MenuItemNetwork(
     val description: String,
     @SerialName("category")
     val category: String
-)
+){
+    fun toMenuItemRoom() = MenuItemRoom(
+        id = id,
+        title = title,
+        price = price,
+        image = image,
+        description = description,
+        category = category
+    )
+}
 
 suspend fun fetchMenuData() : List<MenuItemNetwork> {
     return try {
