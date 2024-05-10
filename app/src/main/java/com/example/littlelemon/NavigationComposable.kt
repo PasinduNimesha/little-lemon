@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun NavigationComposable() {
+fun NavigationComposable(database: AppDatabase) {
     val navController = rememberNavController()
     val context = LocalContext.current
     var startDestination = if (isUserLoggedIn(context)) Home.route else Onboarding.route
@@ -17,7 +17,7 @@ fun NavigationComposable() {
             Onboarding(navController)
         }
         composable(Home.route) {
-            Home(navController)
+            Home(navController, database)
         }
         composable(Profile.route) {
             Profile(navController)
