@@ -67,6 +67,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
     implementation ("androidx.room:room-runtime:2.4.3")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
+    implementation("io.coil-kt:coil-compose:2.4.0")
     kapt("androidx.room:room-compiler:2.4.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -75,4 +76,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
 }
