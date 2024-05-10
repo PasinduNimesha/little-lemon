@@ -25,11 +25,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.LiveData
+
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,7 +50,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun Home(navController: NavHostController) {
+fun Home(navController: NavHostController, database: AppDatabase) {
+    val menuItems = database.menuItemDao().getAll().observeAsState().value ?: emptyList()
+
 //    Column (
 //        modifier = Modifier.fillMaxSize(),
 //        verticalArrangement = Arrangement.Center,
@@ -92,8 +97,27 @@ fun Home(navController: NavHostController) {
             label = { Text("Search") },
             onValueChange = {
                 searchPhrase = it
-            })
-
-
+            }
+        )
+        MenuItemsList(items = menuItems)
+    }
+}
+@Composable
+fun MenuItemsList(items: List<MenuItemRoom>) {
+    LazyColumn {
+        items(items) { menuItem ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(menuItem.title)
+                Button(onClick = { /*TODO*/ }) {
+                    Text("Add")
+                }
+            }
+        }
     }
 }
