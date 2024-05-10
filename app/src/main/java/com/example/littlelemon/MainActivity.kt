@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavigationComposable()
+                    NavigationComposable(database)
                 }
             }
         }
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
     private fun saveMenuToDatabase(menuItemsNetwork: List<MenuItemNetwork>) {
         try {
             val menuItemsRoom = menuItemsNetwork.map { it.toMenuItemRoom() }
-            database.menuItemDao().insertAll(menuItemsRoom)
+            database.menuItemDao().insertAll(*menuItemsRoom.toTypedArray())
         } catch (e: Exception) {
             Log.e("MainActivity", e.message.toString())
         }
