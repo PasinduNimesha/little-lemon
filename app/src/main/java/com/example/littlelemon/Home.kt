@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
@@ -33,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.compose.ui.res.painterResource
@@ -88,22 +91,45 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.5f)
-                .background(color = Color.Cyan),
+                .background(color = Color(0xff495E57)),
         ) {
             Text(
                 text = "Little Lemon",
                 fontWeight = FontWeight.Bold,
                 fontSize = 36.sp,
+                color = Color(0xffF4CE14),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(start = 16.dp, top = 16.dp)
             )
-            Text(
-                text = "Chicago",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center,
-            )
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+                Text(
+                    text = "Chicago",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .fillMaxHeight(0.5f)
+                        .clip(shape = RoundedCornerShape(10.dp))
+                        .padding(10.dp)
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.home_image),
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+
 
             var searchPhrase by remember { mutableStateOf("") }
 
@@ -133,7 +159,8 @@ fun MenuItemsList(items: List<MenuItemRoom>) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(150.dp),
+                        .height(150.dp)
+                        .background(color = Color.White),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(
@@ -148,15 +175,19 @@ fun MenuItemsList(items: List<MenuItemRoom>) {
                         Text("$${menuItem.price}", fontWeight = FontWeight.SemiBold)
 
                     }
-                    AsyncImage(
-                        model = menuItem.image,
-                        placeholder = painterResource(id = R.drawable.place_holder),
-                        error = painterResource(id = R.drawable.place_holder),
-                        contentDescription = "The delasign logo",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                    )
+                    Box(
+                        modifier = Modifier.clip(shape = RoundedCornerShape(100.dp))
+                    ) {
+                        AsyncImage(
+                            model = menuItem.image,
+                            placeholder = painterResource(id = R.drawable.place_holder),
+                            error = painterResource(id = R.drawable.place_holder),
+                            contentDescription = "The delasign logo",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                        )
+                    }
 
                 }
             }
