@@ -15,6 +15,7 @@ import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -32,10 +33,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import coil.compose.AsyncImage
@@ -71,35 +75,49 @@ fun Home(navController: NavHostController, database: AppDatabase) {
 //    }
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "logo",
-            modifier = Modifier.padding(50.dp)
-        )
-        Button(
             modifier = Modifier
-                .padding(start = 60.dp, end = 60.dp, top = 16.dp, bottom = 8.dp)
-                .fillMaxWidth(),
-            onClick = {
+                .padding(10.dp)
+                .fillMaxWidth(0.6f)
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(0.5f)
+                .background(color = Color.Cyan),
+        ) {
+            Text(
+                text = "Little Lemon",
+                fontWeight = FontWeight.Bold,
+                fontSize = 36.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(16.dp)
+            )
+            Text(
+                text = "Chicago",
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+            )
 
-            }) {
-            Text("Tap to Order By Name")
+            var searchPhrase by remember { mutableStateOf("") }
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                value = searchPhrase,
+                label = { Text("Search") },
+                onValueChange = {
+                    searchPhrase = it
+                }
+            )
         }
-
-        var searchPhrase by remember { mutableStateOf("") }
-
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            value = searchPhrase,
-            label = { Text("Search") },
-            onValueChange = {
-                searchPhrase = it
-            }
-        )
         MenuItemsList(items = menuItems)
     }
 }
@@ -115,15 +133,29 @@ fun MenuItemsList(items: List<MenuItemRoom>) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp),
+                        .height(150.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(menuItem.title)
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(0.7f)
+                            .padding(8.dp)
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(menuItem.title, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                        Text(menuItem.description, modifier = Modifier.fillMaxHeight(0.6f))
+                        Text("$${menuItem.price}", fontWeight = FontWeight.SemiBold)
+
+                    }
                     AsyncImage(
                         model = menuItem.image,
-                        placeholder = painterResource(id = R.drawable.logo),
-                        error = painterResource(id = R.drawable.logo),
+                        placeholder = painterResource(id = R.drawable.place_holder),
+                        error = painterResource(id = R.drawable.place_holder),
                         contentDescription = "The delasign logo",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
                     )
 
                 }
