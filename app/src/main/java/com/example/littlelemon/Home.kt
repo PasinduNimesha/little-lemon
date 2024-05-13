@@ -16,6 +16,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,9 +24,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -37,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.lifecycle.LiveData
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,9 +63,12 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun Home(navController: NavHostController, database: AppDatabase) {
     val menuItems = database.menuItemDao().getAll().observeAsState().value ?: emptyList()
+    var searchPhrase by remember { mutableStateOf("") }
+    var selectedChoice by remember { mutableStateOf("") }
 
 //    Column (
 //        modifier = Modifier.fillMaxSize(),
@@ -77,8 +86,7 @@ fun Home(navController: NavHostController, database: AppDatabase) {
 //
 //    }
     Column(
-        modifier = Modifier
-            .padding(16.dp),
+
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -90,7 +98,7 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         )
         Column(
             modifier = Modifier
-                .fillMaxHeight(0.5f)
+                .fillMaxHeight(0.45f)
                 .background(color = Color(0xff495E57)),
         ) {
             Text(
@@ -118,20 +126,19 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
-                        .fillMaxHeight(0.5f)
-                        .clip(shape = RoundedCornerShape(10.dp))
+                        .fillMaxHeight(0.6f)
                         .padding(10.dp)
                 ){
                     Image(
                         painter = painterResource(id = R.drawable.home_image),
                         contentDescription = "",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .clip(shape = RoundedCornerShape(10.dp))
+                            .width(400.dp),
+                        contentScale = ContentScale.FillWidth
                     )
                 }
             }
-
-
-            var searchPhrase by remember { mutableStateOf("") }
 
             OutlinedTextField(
                 modifier = Modifier
@@ -144,7 +151,46 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                 }
             )
         }
-        MenuItemsList(items = menuItems)
+        Column {
+            Text(text = "Order For Delivery")
+            Row(
+                modifier = Modifier.horizontalScroll(rememberScrollState()),
+            ) {
+                Button(
+                    onClick = { selectedChoice = "Starters" },
+                    modifier = Modifier.padding(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Starters") Color(0xffF4CE14) else Color.Gray)
+                ) {
+                    Text("Starters")
+                }
+                Button(
+                    onClick = { selectedChoice = "Main"},
+                    modifier = Modifier.padding(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Main") Color(0xffF4CE14) else Color.Gray)
+                ) {
+                    Text("Main")
+                }
+                Button(
+                    onClick = { selectedChoice = "Desserts"},
+                    modifier = Modifier.padding(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Desserts") Color(0xffF4CE14) else Color.Gray)
+                ) {
+                    Text("Desserts")
+                }
+                Button(
+                    onClick = { selectedChoice = "Drinks"},
+                    modifier = Modifier.padding(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Drinks") Color(0xffF4CE14) else Color.Gray)
+                ) {
+                    Text("Drinks")
+                }
+            }
+        }
+        if (searchPhrase.isNotEmpty()) {
+            MenuItemsList(items = menuItems.filter { it.title.startsWith(searchPhrase, ignoreCase = true) })
+        } else {
+            MenuItemsList(items = menuItems)
+        }
     }
 }
 @Composable
