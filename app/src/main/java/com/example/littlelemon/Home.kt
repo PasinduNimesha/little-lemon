@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.runtime.Composable
@@ -89,13 +90,23 @@ fun Home(navController: NavHostController, database: AppDatabase) {
 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "logo",
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(0.6f)
-        )
+        Row {
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "logo",
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(0.6f)
+            )
+            Icon(
+                painter = painterResource(id = androidx.core.R.drawable.ic_call_decline_low),
+                contentDescription = "shopping cart",
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(0.4f)
+                    .align(Alignment.CenterVertically)
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.45f)
@@ -187,7 +198,7 @@ fun Home(navController: NavHostController, database: AppDatabase) {
             }
         }
         if (searchPhrase.isNotEmpty()) {
-            MenuItemsList(items = menuItems.filter { it.title.startsWith(searchPhrase, ignoreCase = true) })
+            MenuItemsList(items = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) })
         } else {
             MenuItemsList(items = menuItems)
         }
