@@ -63,24 +63,6 @@ fun Onboarding(navController: NavHostController) {
             InputField(label = "Email", value = email.value, onValueChange = { email.value = it})
             Spacer(modifier = Modifier.fillMaxHeight(0.4f))
         }
-
-
-//        Button(
-//            modifier = Modifier.fillMaxWidth(0.9f),
-//            shape = RoundedCornerShape(5.dp),
-//            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
-//            onClick = {
-//                saveUserInfoToPrefs(
-//                    context = context,
-//                    firstName = firstName.value.text,
-//                    lastName = lastName.value.text,
-//                    email = email.value.text
-//                )
-//                navController.navigate("home")
-//            }
-//        ) {
-//            Text(text = stringResource(id = R.string.register_button_label))
-//        }
         LongButton(text = "Register") {
             if (firstName.value.text.isEmpty() || lastName.value.text.isEmpty() || email.value.text.isEmpty()) {
                 Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
