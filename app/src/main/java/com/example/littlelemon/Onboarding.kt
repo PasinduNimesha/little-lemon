@@ -1,6 +1,7 @@
 package com.example.littlelemon
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -81,6 +82,10 @@ fun Onboarding(navController: NavHostController) {
 //            Text(text = stringResource(id = R.string.register_button_label))
 //        }
         LongButton(text = "Register") {
+            if (firstName.value.text.isEmpty() || lastName.value.text.isEmpty() || email.value.text.isEmpty()) {
+                Toast.makeText(context, "Please fill out all fields", Toast.LENGTH_SHORT).show()
+                return@LongButton
+            }
             saveUserInfoToPrefs(
                 context = context,
                 firstName = firstName.value.text,
