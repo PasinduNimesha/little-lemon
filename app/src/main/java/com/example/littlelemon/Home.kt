@@ -122,33 +122,37 @@ fun Home(navController: NavHostController, database: AppDatabase) {
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
             ) {
-                Button(
-                    onClick = { selectedChoice = "Starters" },
-                    modifier = Modifier.padding(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Starters") Color(0xffF4CE14) else Color.Gray)
+                FilterButton(
+                    text = "Starters",
+                    color = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedChoice == "Starters") Color(0xffF4CE14) else Color.Gray
+                    )
                 ) {
-                    Text("Starters")
+                    selectedChoice = "Starters"
                 }
-                Button(
-                    onClick = { selectedChoice = "Main"},
-                    modifier = Modifier.padding(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Main") Color(0xffF4CE14) else Color.Gray)
+                FilterButton(
+                    text = "Main",
+                    color = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedChoice == "Main") Color(0xffF4CE14) else Color.Gray
+                    )
                 ) {
-                    Text("Main")
+                    selectedChoice = "Main"
                 }
-                Button(
-                    onClick = { selectedChoice = "Desserts"},
-                    modifier = Modifier.padding(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Desserts") Color(0xffF4CE14) else Color.Gray)
+                FilterButton(
+                    text = "Desserts",
+                    color = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedChoice == "Desserts") Color(0xffF4CE14) else Color.Gray
+                    )
                 ) {
-                    Text("Desserts")
+                    selectedChoice = "Desserts"
                 }
-                Button(
-                    onClick = { selectedChoice = "Drinks"},
-                    modifier = Modifier.padding(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = if (selectedChoice == "Drinks") Color(0xffF4CE14) else Color.Gray)
+                FilterButton(
+                    text = "Drinks",
+                    color = ButtonDefaults.buttonColors(
+                        containerColor = if (selectedChoice == "Drinks") Color(0xffF4CE14) else Color.Gray
+                    )
                 ) {
-                    Text("Drinks")
+                    selectedChoice = "Drinks"
                 }
             }
         }
@@ -226,6 +230,17 @@ fun HomeHeader(navController: NavHostController){
                 .clip(shape = RoundedCornerShape(100.dp))
                 .clickable { navController.navigate("profile") }
         )
+    }
+}
+
+@Composable
+fun FilterButton(text : String, color: ButtonColors ,onClick: () -> Unit){
+    Button(
+        onClick = onClick,
+        modifier = Modifier.padding(8.dp),
+        colors = color
+    ){
+        Text(text)
     }
 }
 
