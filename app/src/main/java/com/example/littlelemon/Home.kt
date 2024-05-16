@@ -83,50 +83,9 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.45f)
-                    .background(color = Color(0xff495E57)),
+                .background(color = Color(0xff495E57)),
         ) {
-            Text(
-                text = "Little Lemon",
-                fontWeight = FontWeight.Bold,
-                fontSize = 36.sp,
-                color = Color(0xffF4CE14),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 16.dp)
-            )
-            Row (
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                Column {
-                    Text(
-                        text = "Chicago",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                    )
-                    Text(
-                        text = "We are a family owned Mediterranean restaurant focused on traditional recipes served with a modern twist.",
-                        color = Color.White,
-                        modifier = Modifier
-                            .padding(start = 16.dp)
-                            .width(200.dp)
-                    )
-                }
-                Image(
-                    painter = painterResource(id = R.drawable.home_image),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .padding(end = 32.dp, top = 16.dp, bottom = 16.dp)
-                        .size(120.dp)
-                        .clip(shape = RoundedCornerShape(10.dp)),
-                    contentScale = ContentScale.Crop
-                )
-            }
-
+            HomeBody()
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -197,6 +156,53 @@ fun Home(navController: NavHostController, database: AppDatabase) {
             MenuItemsList(items = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) })
         } else {
             MenuItemsList(items = menuItems)
+        }
+    }
+}
+
+@Composable
+fun HomeBody() {
+    Column {
+        Text(
+            text = "Little Lemon",
+            fontWeight = FontWeight.Bold,
+            fontSize = 36.sp,
+            color = Color(0xffF4CE14),
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(start = 16.dp, top = 16.dp)
+        )
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Column {
+                Text(
+                    text = "Chicago",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                )
+                Text(
+                    text = "We are a family owned Mediterranean restaurant focused on traditional recipes served with a modern twist.",
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .width(200.dp)
+                )
+            }
+            Image(
+                painter = painterResource(id = R.drawable.home_image),
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(end = 32.dp, top = 16.dp, bottom = 16.dp)
+                    .size(120.dp)
+                    .clip(shape = RoundedCornerShape(10.dp)),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }
