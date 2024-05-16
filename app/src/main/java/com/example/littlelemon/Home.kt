@@ -76,43 +76,10 @@ fun Home(navController: NavHostController, database: AppDatabase) {
     var searchPhrase by remember { mutableStateOf("") }
     var selectedChoice by remember { mutableStateOf("") }
 
-//    Column (
-//        modifier = Modifier.fillMaxSize(),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//
-//        Text("Home")
-//        Button(onClick = { navController.navigate("profile")}) {
-//            Text("Go to Profile")
-//        }
-//        Button(onClick = { /*TODO*/ }) {
-//            Text(text = "Fetch Data")
-//        }
-//
-//    }
     Column(
-
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row {
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "logo",
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(0.6f)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.profile_image),
-                contentDescription = "profile image placeholder",
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(0.4f)
-                    .clip(shape = RoundedCornerShape(100.dp))
-                    .clickable { navController.navigate("profile") }
-            )
-        }
+        HomeHeader(navController)
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.45f)
@@ -233,6 +200,29 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         }
     }
 }
+
+@Composable
+fun HomeHeader(navController: NavHostController){
+    Row {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "logo",
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(0.6f)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.profile_image),
+            contentDescription = "profile image placeholder",
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(0.4f)
+                .clip(shape = RoundedCornerShape(100.dp))
+                .clickable { navController.navigate("profile") }
+        )
+    }
+}
+
 @Composable
 fun MenuItemsList(items: List<MenuItemRoom>) {
     LazyColumn {
