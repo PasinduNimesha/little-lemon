@@ -16,9 +16,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
@@ -37,41 +39,26 @@ fun Onboarding(navController: NavHostController) {
         val lastName = remember { mutableStateOf(TextFieldValue()) }
         val email = remember { mutableStateOf(TextFieldValue()) }
         Column(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.SpaceBetween
 
         ) {
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(text = "Personal Information", style = MaterialTheme.typography.bodyMedium)
-
+            Text(
+                text = "Personal Information",
+                fontWeight = FontWeight.Medium,
+                fontSize = 20.sp
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
-                value = firstName.value,
-                onValueChange = { firstName.value = it },
-                label = { Text("First Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
+            InputField(label = "First Name", value = firstName.value, onValueChange = { firstName.value = it})
             Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = lastName.value,
-                onValueChange = { lastName.value = it },
-                label = { Text("Last Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
+            InputField(label = "Last Name", value = lastName.value, onValueChange = { lastName.value = it})
             Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = email.value,
-                onValueChange = { email.value = it },
-                label = { Text("Email Address") },
-                modifier = Modifier.fillMaxWidth(),
-            )
-
+            InputField(label = "Email", value = email.value, onValueChange = { email.value = it})
             Spacer(modifier = Modifier.fillMaxHeight(0.4f))
         }
 
@@ -94,6 +81,23 @@ fun Onboarding(navController: NavHostController) {
             Text(text = stringResource(id = R.string.register_button_label))
         }
     }
+}
+
+@Composable
+fun InputField(
+    label: String,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        modifier = Modifier.fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,)
+    )
 }
 
 @Composable
