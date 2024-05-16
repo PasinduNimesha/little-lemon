@@ -16,6 +16,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,12 +27,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -98,13 +103,14 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                     .padding(10.dp)
                     .fillMaxWidth(0.6f)
             )
-            Icon(
-                painter = painterResource(id = androidx.core.R.drawable.ic_call_decline_low),
-                contentDescription = "shopping cart",
+            Image(
+                painter = painterResource(id = R.drawable.profile_image),
+                contentDescription = "profile image placeholder",
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth(0.4f)
-                    .align(Alignment.CenterVertically)
+                    .clip(shape = RoundedCornerShape(100.dp))
+                    .clickable { navController.navigate("profile") }
             )
         }
         Column(
@@ -125,45 +131,68 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                Text(
-                    text = "Chicago",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .fillMaxHeight(0.6f)
-                        .padding(10.dp)
-                ){
-                    Image(
-                        painter = painterResource(id = R.drawable.home_image),
-                        contentDescription = "",
+                Column {
+                    Text(
+                        text = "Chicago",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .clip(shape = RoundedCornerShape(10.dp))
-                            .width(400.dp),
-                        contentScale = ContentScale.FillWidth
+                            .padding(start = 16.dp)
+                    )
+                    Text(
+                        text = "We are a family owned Mediterranean restaurant focused on traditional recipes served with a modern twist.",
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .width(200.dp)
                     )
                 }
+                Image(
+                    painter = painterResource(id = R.drawable.home_image),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(end = 32.dp, top = 16.dp, bottom = 16.dp)
+                        .size(120.dp)
+                        .clip(shape = RoundedCornerShape(10.dp)),
+                    contentScale = ContentScale.Crop
+                )
             }
 
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xffF4CE14),
+                    unfocusedBorderColor = Color(0xffF4CE14),
+                    cursorColor = Color(0xffF4CE14),
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White,
+                    focusedLabelColor = Color.White,
+                    unfocusedSupportingTextColor = Color.White,
+
+                ),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null
+                    )
+                },
                 value = searchPhrase,
-                label = { Text("Search") },
+                label = { Text("Enter Search Phrase") },
                 onValueChange = {
                     searchPhrase = it
                 }
             )
         }
         Column {
-            Text(text = "Order For Delivery")
+            Text(
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp),
+                text = "Order For Delivery!",
+                fontWeight = FontWeight.Bold,
+                )
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
             ) {
