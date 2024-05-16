@@ -116,7 +116,7 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.45f)
-                .background(color = Color(0xff495E57)),
+                    .background(color = Color(0xff495E57)),
         ) {
             Text(
                 text = "Little Lemon",
