@@ -64,25 +64,48 @@ fun Onboarding(navController: NavHostController) {
         }
 
 
-        Button(
-            modifier = Modifier.fillMaxWidth(0.9f),
-            shape = RoundedCornerShape(5.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
-            onClick = {
-                saveUserInfoToPrefs(
-                    context = context,
-                    firstName = firstName.value.text,
-                    lastName = lastName.value.text,
-                    email = email.value.text
-                )
-                navController.navigate("home")
-            }
-        ) {
-            Text(text = stringResource(id = R.string.register_button_label))
+//        Button(
+//            modifier = Modifier.fillMaxWidth(0.9f),
+//            shape = RoundedCornerShape(5.dp),
+//            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
+//            onClick = {
+//                saveUserInfoToPrefs(
+//                    context = context,
+//                    firstName = firstName.value.text,
+//                    lastName = lastName.value.text,
+//                    email = email.value.text
+//                )
+//                navController.navigate("home")
+//            }
+//        ) {
+//            Text(text = stringResource(id = R.string.register_button_label))
+//        }
+        LongButton(text = "Register") {
+            saveUserInfoToPrefs(
+                context = context,
+                firstName = firstName.value.text,
+                lastName = lastName.value.text,
+                email = email.value.text
+            )
+            navController.navigate("home")
         }
     }
 }
 
+@Composable
+fun LongButton(
+    text: String,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(0.9f),
+        shape = RoundedCornerShape(5.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFCC603), contentColor = Color(0xFF000000)),
+        ) {
+        Text(text = text)
+    }
+}
 @Composable
 fun InputField(
     label: String,
