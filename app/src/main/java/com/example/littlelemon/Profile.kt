@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
 @Composable
@@ -38,38 +39,25 @@ fun Profile(navController: NavHostController) {
         Image(painter = painterResource(id = R.drawable.img), contentDescription = "logo")
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp),
+                    .padding(bottom = 20.dp),
                 contentAlignment = Alignment.CenterStart,
-
                 ) {
-                Text("Personal Information", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    "Personal Information",
+                    fontSize = 20.sp,
+                )
             }
-            TextField(
-                value = firstName.value,
-                onValueChange = { firstName.value = it },
-                label = { Text("First Name") },
-                modifier = Modifier.fillMaxWidth(0.9f)
-            )
+            InputField(label = "First Name", value = firstName.value, onValueChange = { firstName.value = it })
             Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = lastName.value,
-                onValueChange = { lastName.value = it },
-                label = { Text("Last Name") },
-                modifier = Modifier.fillMaxWidth(0.9f)
-            )
+            InputField(label = "Last Name", value = lastName.value, onValueChange = { lastName.value = it })
             Spacer(modifier = Modifier.height(8.dp))
-            TextField(
-                value = email.value,
-                onValueChange = { email.value = it },
-                label = { Text("Email Address") },
-                modifier = Modifier.fillMaxWidth(0.9f),
-            )
+            InputField(label = "Email", value = email.value, onValueChange = { email.value = it })
         }
 
         Button(onClick = {
