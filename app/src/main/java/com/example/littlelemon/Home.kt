@@ -75,33 +75,7 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                 .verticalScroll(rememberScrollState()),
         ) {
             HomeBody()
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 4.dp, top = 4.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xffF4CE14),
-                    unfocusedBorderColor = Color(0xffF4CE14),
-                    cursorColor = Color(0xffF4CE14),
-                    unfocusedContainerColor = Color.White,
-                    focusedContainerColor = Color.White,
-                    focusedLabelColor = Color.White,
-                    unfocusedSupportingTextColor = Color.White,
-
-                ),
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null
-                    )
-                },
-                value = searchPhrase,
-                label = { Text("Enter Search Phrase") },
-                onValueChange = {
-                    searchPhrase = it
-                }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+            SearchBar(onValueChange = { searchPhrase = it }, searchPhrase = searchPhrase)
         }
         Column {
             Text(
@@ -155,6 +129,47 @@ fun Home(navController: NavHostController, database: AppDatabase) {
 }
 
 @Composable
+fun BackHandler(onBackPressed: () -> Unit, context: Context) {
+    val currentOnBackPressed by rememberUpdatedState(onBackPressed)
+
+    DisposableEffect(Unit) {
+        val callback = object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                currentOnBackPressed()
+            }
+        }
+        val activity = (context as ComponentActivity)
+        activity.onBackPressedDispatcher.addCallback(callback)
+
+        onDispose {
+            callback.remove()
+        }
+    }
+}
+
+@Composable
+fun HomeHeader(navController: NavHostController){
+    Row {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "logo",
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(0.6f)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.profile_image),
+            contentDescription = "profile image placeholder",
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(0.4f)
+                .clip(shape = RoundedCornerShape(100.dp))
+                .clickable { navController.navigate("profile") }
+        )
+    }
+}
+
+@Composable
 fun HomeBody() {
     Column {
         Text(
@@ -202,25 +217,34 @@ fun HomeBody() {
 }
 
 @Composable
-fun HomeHeader(navController: NavHostController){
-    Row {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "logo",
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(0.6f)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.profile_image),
-            contentDescription = "profile image placeholder",
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(0.4f)
-                .clip(shape = RoundedCornerShape(100.dp))
-                .clickable { navController.navigate("profile") }
-        )
-    }
+fun SearchBar(onValueChange: (String) -> Unit, searchPhrase: String){
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 4.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Color(0xffF4CE14),
+            unfocusedBorderColor = Color(0xffF4CE14),
+            cursorColor = Color(0xffF4CE14),
+            unfocusedContainerColor = Color.White,
+            focusedContainerColor = Color.White,
+            focusedLabelColor = Color.White,
+            unfocusedSupportingTextColor = Color.White,
+
+            ),
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null
+            )
+        },
+        value = searchPhrase,
+        label = { Text("Enter Search Phrase") },
+        onValueChange = {
+            onValueChange(it)
+        }
+    )
+    Spacer(modifier = Modifier.height(8.dp))
 }
 
 @Composable
@@ -278,24 +302,6 @@ fun MenuItemsList(items: List<MenuItemRoom>) {
 
                 }
             }
-        }
-    }
-}
-@Composable
-fun BackHandler(onBackPressed: () -> Unit, context: Context) {
-    val currentOnBackPressed by rememberUpdatedState(onBackPressed)
-
-    DisposableEffect(Unit) {
-        val callback = object : androidx.activity.OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                currentOnBackPressed()
-            }
-        }
-        val activity = (context as ComponentActivity)
-        activity.onBackPressedDispatcher.addCallback(callback)
-
-        onDispose {
-            callback.remove()
         }
     }
 }
