@@ -131,13 +131,18 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         }
 
         if (searchPhrase.isNotEmpty()) {
-            MenuItemsList(items = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) }.filter {
-                it.category == selectedChoice || selectedChoice == ""
-            })
+            MenuItemsList(
+                items = menuItems
+                    .filter { it.title.contains(searchPhrase, ignoreCase = true) }
+                    .filter {
+                        it.category == selectedChoice || selectedChoice == ""
+                    })
         } else {
-            MenuItemsList(items = menuItems.filter {
-                it.category == selectedChoice || selectedChoice == ""
-            })
+            MenuItemsList(
+                items = menuItems
+                    .filter {
+                        it.category == selectedChoice || selectedChoice == ""
+                    })
         }
     }
 }
