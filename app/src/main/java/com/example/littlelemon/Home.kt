@@ -89,41 +89,41 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                 FilterButton(
                     text = "Starters",
                     color = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedChoice == "Starters") Color(0xffF4CE14) else Color.Gray
+                        containerColor = if (selectedChoice == "starters") Color(0xffF4CE14) else Color.Gray
                     )
                 ) {
-                    selectedChoice = "Starters"
+                    selectedChoice = "starters"
                 }
                 FilterButton(
                     text = "Main",
                     color = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedChoice == "Main") Color(0xffF4CE14) else Color.Gray
+                        containerColor = if (selectedChoice == "mains") Color(0xffF4CE14) else Color.Gray
                     )
                 ) {
-                    selectedChoice = "Main"
+                    selectedChoice = "mains"
                 }
                 FilterButton(
                     text = "Desserts",
                     color = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedChoice == "Desserts") Color(0xffF4CE14) else Color.Gray
+                        containerColor = if (selectedChoice == "desserts") Color(0xffF4CE14) else Color.Gray
                     )
                 ) {
-                    selectedChoice = "Desserts"
+                    selectedChoice = "desserts"
                 }
                 FilterButton(
                     text = "Drinks",
                     color = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedChoice == "Drinks") Color(0xffF4CE14) else Color.Gray
+                        containerColor = if (selectedChoice == "drinks") Color(0xffF4CE14) else Color.Gray
                     )
                 ) {
-                    selectedChoice = "Drinks"
+                    selectedChoice = "drinks"
                 }
             }
         }
         if (searchPhrase.isNotEmpty()) {
-            MenuItemsList(items = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) })
+            MenuItemsList(items = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) }.filter { it.category == selectedChoice})
         } else {
-            MenuItemsList(items = menuItems)
+            MenuItemsList(items = menuItems.filter { it.category == selectedChoice})
         }
     }
 }
