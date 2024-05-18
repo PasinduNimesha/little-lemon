@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -62,13 +64,14 @@ fun Home(navController: NavHostController, database: AppDatabase) {
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.45f)
-                .background(color = Color(0xff495E57)),
+                .background(color = Color(0xff495E57))
+                .verticalScroll(rememberScrollState()),
         ) {
             HomeBody()
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(start = 16.dp, end = 4.dp, top = 4.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xffF4CE14),
                     unfocusedBorderColor = Color(0xffF4CE14),
@@ -91,6 +94,7 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                     searchPhrase = it
                 }
             )
+            Spacer(modifier = Modifier.height(8.dp))
         }
         Column {
             Text(
@@ -149,11 +153,11 @@ fun HomeBody() {
         Text(
             text = "Little Lemon",
             fontWeight = FontWeight.Bold,
-            fontSize = 36.sp,
+            fontSize = 32.sp,
             color = Color(0xffF4CE14),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(start = 16.dp, top = 16.dp)
+                .padding(start = 16.dp)
         )
         Row (
             modifier = Modifier.fillMaxWidth(),
@@ -163,14 +167,14 @@ fun HomeBody() {
                 Text(
                     text = "Chicago",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(start = 16.dp)
                 )
                 Text(
-                    text = "We are a family owned Mediterranean restaurant focused on traditional recipes served with a modern twist.",
+                    text = "We are a family owned mediterranean restaurant focused on traditional recipes served with a modern twist.",
                     color = Color.White,
                     modifier = Modifier
                         .padding(start = 16.dp)
