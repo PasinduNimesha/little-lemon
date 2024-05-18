@@ -58,10 +58,9 @@ import coil.compose.AsyncImage
 
 @Composable
 fun Home(navController: NavHostController, database: AppDatabase) {
-    val menuItems = database.menuItemDao().getAll().observeAsState().value ?: emptyList()
     var searchPhrase by remember { mutableStateOf("") }
     var selectedChoice by remember { mutableStateOf("") }
-    var filteredItems by remember { mutableStateOf(menuItems) }
+    val menuItems = database.menuItemDao().getAll().observeAsState().value ?: emptyList()
 
 
     BackHandler(onBackPressed = {}, context = LocalContext.current)
@@ -91,11 +90,10 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                 FilterButton(
                     text = "All",
                     color = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedChoice == "all") Color(0xffF4CE14) else Color.Gray
+                        containerColor = if (selectedChoice == "") Color(0xffF4CE14) else Color.Gray
                     )
                 ) {
-                    selectedChoice = "all"
-                    filteredItems = menuItems
+                    selectedChoice = ""
                 }
                 FilterButton(
                     text = "Starters",
@@ -104,7 +102,6 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                     )
                 ) {
                     selectedChoice = "starters"
-                    filteredItems = menuItems.filter { it.category == selectedChoice }
                 }
                 FilterButton(
                     text = "Main",
@@ -113,7 +110,6 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                     )
                 ) {
                     selectedChoice = "mains"
-                    filteredItems = menuItems.filter { it.category == selectedChoice }
                 }
                 FilterButton(
                     text = "Desserts",
@@ -122,7 +118,6 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                     )
                 ) {
                     selectedChoice = "desserts"
-                    filteredItems = menuItems.filter { it.category == selectedChoice }
                 }
                 FilterButton(
                     text = "Drinks",
@@ -131,15 +126,18 @@ fun Home(navController: NavHostController, database: AppDatabase) {
                     )
                 ) {
                     selectedChoice = "drinks"
-                    filteredItems = menuItems.filter { it.category == selectedChoice }
                 }
             }
         }
 
         if (searchPhrase.isNotEmpty()) {
-            MenuItemsList(items = filteredItems.filter { it.title.contains(searchPhrase, ignoreCase = true) })
+            MenuItemsList(items = menuItems.filter { it.title.contains(searchPhrase, ignoreCase = true) }.filter {
+                it.category == selectedChoice || selectedChoice == ""
+            })
         } else {
-            MenuItemsList(items = filteredItems)
+            MenuItemsList(items = menuItems.filter {
+                it.category == selectedChoice || selectedChoice == ""
+            })
         }
     }
 }
